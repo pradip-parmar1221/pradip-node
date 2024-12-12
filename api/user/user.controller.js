@@ -1,0 +1,81 @@
+const {
+    signin,
+    signup,
+    getcurrency,
+    updatecurrency,
+}=require('./user.service')
+const stringfile = require('./../../config/stringfile')
+module.exports={
+    signin:(req,res)=>{
+        var body =req.body
+        signin(body,(err,result)=>{
+        if(err){
+            res.json({
+                'success':"0",
+                "message":err,
+                "data":[]
+            })
+        }else{
+            res.json({
+                'success':"1",
+                "message":stringfile.loginsuccess,
+                "data":result
+            })
+        }
+     })
+    },
+    signup:(req,res)=>{
+        var body =req.body
+        signup(body,(err,result)=>{
+        if(err){
+            res.json({
+                'success':"0",
+                "message":err,
+                "data":[]
+            })
+        }else{
+            res.json({
+                'success':"1",
+                "message":stringfile.signupsuccess,
+                "data":result
+            })
+        }
+     })
+    },
+    getcurrency:(req,res)=>{
+        var body =req.body
+        getcurrency(body,(err,result)=>{
+        if(err){
+            res.json({
+                'success':"0",
+                "message":err,
+                "data":[]
+            })
+        }else{
+            res.json({
+                'success':"1",
+                "message":'',
+                "data":result
+            })
+        }
+     })
+    },
+    updatecurrency:(req,res)=>{
+        var body =req.body
+        updatecurrency(body,(err,result)=>{
+        if(err){
+            res.json({
+                'success':"0",
+                "message":err,
+                "data":[]
+            })
+        }else{
+            res.json({
+                'success':"1",
+                "message":stringfile.currencyupdate,
+                "data":result
+            })
+        }
+     })
+    }
+}
