@@ -4,7 +4,7 @@ const {
     getitem,
     deleteitem,
     updateitem,
-    uploadaudio,
+    invoice_img_upload,
 }=require('./item.service')
 const stringfile = require('./../../config/stringfile')
 module.exports={
@@ -12,6 +12,24 @@ module.exports={
     additem:(req,res)=>{
 
         additem(req,(err,result)=>{
+        if(err){
+            res.json({
+                'success':"0",
+                "message":err,
+                "data":[]
+            })
+        }else{
+            res.json({
+                'success':"1",
+                "message":stringfile.itemaddsuccess,
+                "data":result
+            })
+        }
+     })
+    },
+    invoice_img_upload:(req,res)=>{
+
+        invoice_img_upload(req,(err,result)=>{
         if(err){
             res.json({
                 'success':"0",
@@ -66,24 +84,6 @@ module.exports={
     updateitem:(req,res)=>{
 
         updateitem(req,(err,result)=>{
-        if(err){
-            res.json({
-                'success':"0",
-                "message":err,
-                "data":[]
-            })
-        }else{
-            res.json({
-                'success':"1",
-                "message":stringfile.itemupdatesuccessfuly,
-                "data":result
-            })
-        }
-     })
-    },
-    uploadaudio:(req,res)=>{
-
-        uploadaudio(req,(err,result)=>{
         if(err){
             res.json({
                 'success':"0",

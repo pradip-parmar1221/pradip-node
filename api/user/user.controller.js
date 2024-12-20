@@ -3,6 +3,7 @@ const {
     signup,
     getcurrency,
     updatecurrency,
+    updateuser,
 }=require('./user.service')
 const stringfile = require('./../../config/stringfile')
 module.exports={
@@ -73,6 +74,24 @@ module.exports={
             res.json({
                 'success':"1",
                 "message":stringfile.currencyupdate,
+                "data":result
+            })
+        }
+     })
+    },
+    updateuser:(req,res)=>{
+        var body =req.body
+        updateuser(body,(err,result)=>{
+        if(err){
+            res.json({
+                'success':"0",
+                "message":err,
+                "data":[]
+            })
+        }else{
+            res.json({
+                'success':"1",
+                "message":stringfile.userupdate,
                 "data":result
             })
         }

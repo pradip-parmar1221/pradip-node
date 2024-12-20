@@ -28,8 +28,8 @@ module.exports = {
                   console.log(err)
                   callback(err)
                 } else {
-                 data.userid=uuid
-                 data.password=undefined
+                  data.userid = uuid
+                  data.password = undefined
                   callback(null, [data])
                 }
               })
@@ -42,62 +42,93 @@ module.exports = {
 
   },
   signin: async (data, callback) => {
-    if(!data.email || !data.password){
+    if (!data.email || !data.password) {
       callback(stringfile.enteralldata)
-    }else{
+    } else {
 
-    
-    connection.query(`select password, userid,username,currency,email from user where email='${data.email}' and password='${data.password}' and isactive=1`, (err, result) => {
-      if (err) {
-        callback(err)
-      } else {
-        if (result.length > 0) {
-          if (result[0].password == data.password) {
-            result[0].password=undefined
-            callback(null, result)
+
+      connection.query(`select password, userid,username,currency,email from user where email='${data.email}' and password='${data.password}' and isactive=1`, (err, result) => {
+        if (err) {
+          callback(err)
+        } else {
+          if (result.length > 0) {
+            if (result[0].password == data.password) {
+              result[0].password = undefined
+              callback(null, result)
+            } else {
+              callback(stringfile.invalidemail)
+            }
           } else {
             callback(stringfile.invalidemail)
           }
-        } else {
-          callback(stringfile.invalidemail)
         }
-      }
-    })
+      })
     }
   },
 
 
   // currency code 
   getcurrency: async (data, callback) => {
-    if(!data.userid ){
+    if (!data.userid) {
       callback(stringfile.enteralldata)
-    }else{
+    } else {
 
-    
-    connection.query(`select currency from user where userid='${data.userid}' and isactive=1`, (err, result) => {
-      if (err) {
-        callback(err)
-      } else {
-        if (result.length > 0) {
-            callback(null, result)
+
+      connection.query(`select currency from user where userid='${data.userid}' and isactive=1`, (err, result) => {
+        if (err) {
+          callback(err)
         } else {
-          callback(stringfile.usernotfound)
+          if (result.length > 0) {
+            callback(null, result)
+          } else {
+            callback(stringfile.usernotfound)
+          }
         }
-      }
-    })
+      })
     }
   },
   updatecurrency: async (data, callback) => {
-    if(!data.userid || !data.currency){
+    if (!data.userid || !data.currency) {
       callback(stringfile.enteralldata)
-    }else{
+    } else {
       connection.query(`update user set currency='${data.currency}'   where userid='${data.userid}' and isactive=1`, (err, result) => {
         if (err) {
           callback(err)
         } else {
-              callback(null, [])
+          callback(null, [])
         }
       })
+    }
+
+
+  },
+  updateuser: async (data, callback) => {
+    if (!data.userid || !data.username || !data.email) {
+      callback(stringfile.enteralldata)
+    } else {
+
+      
+      connection.query(`select userid from user  where email='${data.email}' and userid !='${data.userid}' and isactive=1`, (err, result) => {
+        if (err) {
+          callback(err)
+        } else {
+          console.log(result.length,'resultresultresult')
+          if(result.length > 0){
+            callback(stringfile.useralreadysignup)
+          }else{
+            connection.query(`update user set username='${data.username}',email='${data.email}'   where userid='${data.userid}' and isactive=1`, (err, result) => {
+              if (err) {
+                callback(err)
+              } else {
+                callback(null, [])
+              }
+            })
+          }
+      
+        }
+      })
+
+
     }
 
 
