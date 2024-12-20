@@ -5,6 +5,17 @@ const PORT = 3000
 const host="192.168.43.37"
 const path = require('path');
 
+const cors = require('cors');
+// const host="148.135.137.9"  // for live
+
+app.use(
+  cors({
+    origin: '*', // Replace with your frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
+
 
 const fileUpload = require('express-fileupload');
 const bodyParser = require('body-parser');
